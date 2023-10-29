@@ -1,25 +1,35 @@
 package main
 
-import "github.com/user/sales"
+import "fmt"
 
-type Salesperson struct {
-	CurrentCommand sales.Command
+type Command interface {
+	Execute()
 }
 
-func (s *Salesperson) SellProduct() {
-	details := sales.SaleDetails{
-		// populated
-	}
-
-	command := &sales.SaleCommand{
-		Device:  &sales.SamsungTV{},
-		Details: details,
-	}
-
-	s.CurrentCommand = command
-	s.CurrentCommand.Execute(nil)
+type Build struct {
+	Material string
 }
 
-func (s *Salesperson) ProcessReturn() {
-	// similar to sale
+func (b *Build) Execute() {
+	fmt.Printf("Building with %s\n", b.Material)
+}
+
+type Demolish struct {
+	Method string
+}
+
+func (d *Demolish) Execute() {
+	fmt.Printf("Demolishing using %s\n", d.Method)
+}
+
+func main() {
+
+	// Initialize commands
+	build := &Build{Material: "concrete"}
+	demolish := &Demolish{Method: "explosives"}
+
+	// Execute commands
+	build.Execute()
+	demolish.Execute()
+
 }
